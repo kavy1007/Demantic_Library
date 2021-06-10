@@ -1,8 +1,10 @@
 package com.dematic.books.model;
 
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
-
+@NoArgsConstructor
 public class ScienceJournal extends Book {
     private int scienceIndex;
 

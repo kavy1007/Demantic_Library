@@ -1,8 +1,11 @@
 package com.dematic.books.model;
 
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.Year;
 
+@NoArgsConstructor
 public class AntiqueJournal extends Book {
     private long releaseYear;
 
