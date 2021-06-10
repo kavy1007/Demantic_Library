@@ -2,14 +2,15 @@ package com.dematic.books.dao;
 
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "BOOK")
 @Getter
 public class BookDAO {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long bookId;
     private String name;
     private String author;

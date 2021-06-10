@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,10 +24,10 @@ public class BookService implements IBookService {
 
     public void saveBooks(Library library) {
         List<BookDAO> books = library.getBooks().stream().map(book -> {
-            if (Objects.nonNull(book.getReleaseYear())) {
+            if (book.getReleaseYear() > 0) {
                 return getAntiqueJournal(book);
             }
-            if (Objects.nonNull(book.getScienceIndex())) {
+            if (book.getScienceIndex() > 0) {
                 return getScienceJournal(book);
             }
             return getBooks(book);
