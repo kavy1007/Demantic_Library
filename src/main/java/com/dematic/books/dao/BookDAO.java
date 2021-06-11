@@ -3,6 +3,7 @@ package com.dematic.books.dao;
 import com.dematic.books.dto.BookDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "BOOK")
 @Getter
-
+@Setter
 @NoArgsConstructor
 public class BookDAO {
     @Id
