@@ -36,14 +36,12 @@ public class BookDAO {
         this.bookType = bookType;
     }
 
-    public BookDAO(String name, String author, String barcode, int quantity, BigDecimal price, String bookType, int scienceIndex) {
-        this(name, author, barcode, quantity, price, bookType);
-        this.scienceIndex = scienceIndex;
-    }
-
-    public BookDAO(String name, String author, String barcode, int quantity, BigDecimal price, String bookType, long releaseYear) {
+    public BookDAO(String name, String author, String barcode, int quantity, BigDecimal price,
+                   String bookType, long releaseYear, int scienceIndex) {
         this(name, author, barcode, quantity, price, bookType);
         this.releaseYear = releaseYear;
+        this.scienceIndex = scienceIndex;
+
     }
 
     public void updateBook(BookDTO bookDTO) {

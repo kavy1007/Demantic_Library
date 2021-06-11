@@ -103,7 +103,8 @@ public class BookService implements IBookService {
                 bookDTO.getQuantity(),
                 bookDTO.getPrice(),
                 bookType,
-                bookDTO.getReleaseYear());
+                bookDTO.getReleaseYear(),
+                bookDTO.getScienceIndex());
     }
 
     private BookDTO getBookDTO(BookDAO bookDTO) {

@@ -3,9 +3,9 @@ package com.dematic.books.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
@@ -13,17 +13,17 @@ import java.math.BigDecimal;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 public class BookDTO {
-    @NonNull
+    @NotNull(message = "name is Mandatory")
     private String name;
-    @NonNull
+    @NotNull(message = "barcode is Mandatory")
     private String author;
-    @NonNull
+    @NotNull(message = "barcode is Mandatory")
     private String barcode;
-    @PositiveOrZero
+    @PositiveOrZero(message = "quantity should be greater than 0")
     private int quantity;
-    @PositiveOrZero
+    @PositiveOrZero(message = "price should be greater than 0")
     private BigDecimal price;
-    @Max(1900)
+    @Max(value = 1900, message = "releaseYear should be less than than 1900")
     private long releaseYear;
     private int scienceIndex;
     private long bookId;
