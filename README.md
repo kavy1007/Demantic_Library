@@ -10,10 +10,6 @@ Spring Boot H2 DB //can be replaced with any other DB's
 
 Quick Start Clone the git repository
 
-docker build --tag=library
-
-docker run -p8080:8080 library
-
 Application starts in 8080 port Application
 
 starts in 8080 port

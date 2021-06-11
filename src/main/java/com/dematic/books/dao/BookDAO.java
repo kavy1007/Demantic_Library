@@ -21,7 +21,6 @@ public class BookDAO {
     private String name;
     private String author;
     private String barcode;
-
     private int quantity;
     private BigDecimal price;
     private long releaseYear;
