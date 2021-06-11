@@ -1,7 +1,3 @@
-/*
- * Copyright (C) Lowe's Companies, Inc. All rights reserved.
- * This file is for internal use only at Lowe's Companies, Inc.
- */
 package com.dematic.books.controller;
 
 import lombok.Getter;
