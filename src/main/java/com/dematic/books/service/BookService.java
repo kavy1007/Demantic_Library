@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,21 +25,22 @@ public class BookService implements IBookService {
     private static String SCIENCE = "SCIENCE";
 
     public void saveBooks(Library library) {
-        List<BookDAO> books = library.getBooks().stream().map(book -> {
-            if (book.getReleaseYear() > 0) {
-                return getAntiqueJournal(book);
-            }
-            if (book.getScienceIndex() > 0) {
-                return getScienceJournal(book);
-            }
-            return getBooks(book);
-        }).collect(Collectors.toList());
+        List<BookDAO> books = library.getBooks().stream().map(this::getBooks).collect(Collectors.toList());
         bookRepository.save(books);
     }
 
-    public void updateBooksByBarCode(String barCode) {
-
+    public void updateBooksByBarCode(String barCode, Library library) {
+        Map<Long, BookDAO> books = bookRepository.getBooksByBarCode(barCode).stream()
+                .collect(Collectors.toMap(BookDAO::getBookId, Function.identity()));
+        List<BookDAO> updatedBooks = library.getBooks().stream()
+                .map(bookDTO -> {
+                    BookDAO bookEntity = books.get(bookDTO.getBookId());
+                    bookEntity.updateBook(bookDTO);
+                    return bookEntity;
+                }).collect(Collectors.toList());
+        bookRepository.save(updatedBooks);
     }
+
 
     public Library getBooksByBarCode(String barCode) {
         return new Library(bookRepository.getBooksByBarCode(barCode).stream()
@@ -46,11 +49,11 @@ public class BookService implements IBookService {
 
     public Library calculateTotal(String barCode) {
         BigDecimal total = bookRepository.getBooksByBarCode(barCode).stream().map(bookDAO -> {
-            if ("Science".equalsIgnoreCase(bookDAO.getBookType())) {
+            if (SCIENCE.equalsIgnoreCase(bookDAO.getBookType())) {
                 ScienceJournal scienceJournal = getScienceJournal(bookDAO);
                 return scienceJournal.calculateTotal();
             }
-            if ("Antique".equalsIgnoreCase(bookDAO.getBookType())) {
+            if (ANTIQUE.equalsIgnoreCase(bookDAO.getBookType())) {
                 AntiqueJournal antiqueJournal = getAntiqueJournal(bookDAO);
                 return antiqueJournal.calculateTotal();
             }
@@ -86,34 +89,22 @@ public class BookService implements IBookService {
                 bookDAO.getScienceIndex());
     }
 
-    private BookDAO getAntiqueJournal(BookDTO bookDTO) {
+    private BookDAO getBooks(BookDTO bookDTO) {
+        String bookType = GENERAL;
+        if (bookDTO.getReleaseYear() > 0) {
+            bookType = ANTIQUE;
+        }
+        if (bookDTO.getScienceIndex() > 0) {
+            bookType = SCIENCE;
+        }
         return new BookDAO(bookDTO.getName(),
                 bookDTO.getAuthor(),
                 bookDTO.getBarcode(),
                 bookDTO.getQuantity(),
                 bookDTO.getPrice(),
-                ANTIQUE,
+                bookType,
                 bookDTO.getReleaseYear());
     }
-
-    private BookDAO getBooks(BookDTO bookDTO) {
-        return new BookDAO(bookDTO.getName(),
-                bookDTO.getAuthor(),
-                bookDTO.getBarcode(),
-                bookDTO.getQuantity(),
-                bookDTO.getPrice(), GENERAL);
-    }
-
-    private BookDAO getScienceJournal(BookDTO bookDTO) {
-        return new BookDAO(bookDTO.getName(),
-                bookDTO.getAuthor(),
-                bookDTO.getBarcode(),
-                bookDTO.getQuantity(),
-                bookDTO.getPrice(),
-                SCIENCE,
-                bookDTO.getScienceIndex());
-    }
-
 
     private BookDTO getBookDTO(BookDAO bookDTO) {
         return new BookDTO(bookDTO.getName(),
@@ -121,7 +112,7 @@ public class BookService implements IBookService {
                 bookDTO.getBarcode(),
                 bookDTO.getQuantity(),
                 bookDTO.getPrice(),
-                bookDTO.getScienceIndex());
+                bookDTO.getScienceIndex(), bookDTO.getReleaseYear(), bookDTO.getBookId());
     }
 }
 

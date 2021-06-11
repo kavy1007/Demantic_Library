@@ -7,7 +7,7 @@ public interface IBookService {
 
     void saveBooks(Library library);
 
-    void updateBooksByBarCode(String barCode);
+    void updateBooksByBarCode(String barCode, Library library);
 
     Library getBooksByBarCode(String barCode);
 }

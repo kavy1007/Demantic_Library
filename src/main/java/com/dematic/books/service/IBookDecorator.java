@@ -1,5 +1,8 @@
 package com.dematic.books.service;
 
-public interface IBookDecorator extends IBookService{
+import com.dematic.books.dto.Library;
+
+public interface IBookDecorator {
+    Library calculateTotal(String barCode);
 
 }

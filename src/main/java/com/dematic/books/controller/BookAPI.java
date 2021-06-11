@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 public class BookAPI implements IBookAPI {
     @Autowired
@@ -21,8 +19,9 @@ public class BookAPI implements IBookAPI {
     }
 
     @Override
-    public ResponseEntity<Library> updateBookDetails(String barcode, List<Library> libraries) {
-        return null;
+    public ResponseEntity updateBookDetails(String barcode, Library libraries) {
+        bookService.updateBooksByBarCode(barcode, libraries);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @Override
