@@ -16,6 +16,8 @@ starts in 8080 port
 
 ## API's exposed
 
+## AddBooks API:
+
 http://localhost:8080/book/add
 
 sample Input:
@@ -32,11 +34,11 @@ sample Input:
 ]
 }
 
-CalculateTotalAPI:
+## CalculateTotalAPI:
 
 http://localhost:8080/book/calculatetotal/{barCode}
 
-UpdateDetailsAPI:
+## UpdateDetailsAPI:
 
 http://localhost:8080/book/{barCode}
 
@@ -49,6 +51,10 @@ sampleInput:
 ]
 }
 
-GetBooksByBarCode:
+## GetBooksByBarCode:
 
 http://localhost:8080/book/{barCode}
+
+## swagger link
+
+url: http://localhost:8080/swagger-ui.html
